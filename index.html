@@ -2,247 +2,118 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>人事課 窓口予約システム | 京都桂病院</title>
+  <title>人事課 窓口予約 入口</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
+  <!-- GIS ライブラリ -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: "Noto Sans JP",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
-      background-color: #f5f5f7;
-      color: #111827;
-      min-height: 100vh;
+    body{
+      font-family:"Noto Sans JP",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:#f5f5f7; color:#111827;
+      min-height:100vh; margin:0;
+      display:flex; align-items:center; justify-content:center;
+      padding:24px 16px;
     }
-
-    .shell {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 32px 16px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .card{
+      max-width:480px; width:100%;
+      background:#fff; border-radius:8px;
+      border:1px solid #e5e7eb;
+      padding:20px 18px 18px;
     }
-
-    .card {
-      width: 100%;
-      background-color: #ffffff;
-      border-radius: 8px;
-      border: 1px solid #e5e7eb;
-      padding: 20px 18px 18px;
+    h1{ font-size:20px; margin:0 0 8px; font-weight:700; }
+    p{ font-size:14px; margin:4px 0; color:#4b5563; }
+    .domain{
+      font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:13px;
+      padding:1px 4px; border-radius:4px;
+      background:#f3f4f6; border:1px solid #e5e7eb;
     }
-
-    .card-header {
-      margin-bottom: 12px;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      font-size: 12px;
-      color: #374151;
-      background-color: #ffffff;
-      margin-bottom: 6px;
-    }
-
-    h1 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: #4b5563;
-    }
-
-    .section {
-      margin-top: 14px;
-      font-size: 14px;
-      color: #374151;
-    }
-
-    .section-title {
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    ul {
-      padding-left: 1.2em;
-      margin-top: 4px;
-    }
-
-    li {
-      margin: 2px 0;
-    }
-
-    .highlight {
-      font-weight: 600;
-      color: #111827;
-    }
-
-    .domain {
-      font-family: "Noto Sans Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 13px;
-      padding: 1px 4px;
-      border-radius: 4px;
-      background-color: #f3f4f6;
-      border: 1px solid #e5e7eb;
-    }
-
-    .alert {
-      margin-top: 10px;
-      padding: 8px 10px;
-      border-radius: 6px;
-      background-color: #fef3c7;
-      border: 1px solid #fcd34d;
-      font-size: 13px;
-      color: #92400e;
-    }
-
-    .alert-title {
-      font-weight: 600;
-      margin-bottom: 2px;
-    }
-
-    .btn-row {
-      margin-top: 18px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 10px 18px;
-      border-radius: 999px;
-      border: 1px solid #2563eb;
-      background-color: #2563eb;
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .btn-primary:hover {
-      background-color: #1d4ed8;
-      border-color: #1d4ed8;
-    }
-
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      border: 1px solid #d1d5db;
-      background-color: #ffffff;
-      color: #111827;
-      font-size: 13px;
-      font-weight: 500;
-      text-decoration: none;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-
-    .btn-secondary:hover {
-      background-color: #f3f4f6;
-    }
-
-    .btn-icon {
-      font-size: 14px;
-    }
-
-    .footnote {
-      margin-top: 12px;
-      font-size: 12px;
-      color: #6b7280;
-    }
-
-    @media (max-width: 480px) {
-      .card {
-        padding: 16px 14px 16px;
-      }
-      h1 {
-        font-size: 18px;
-      }
-      .btn-row {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .btn-primary,
-      .btn-secondary {
-        justify-content: center;
-        width: 100%;
-      }
-    }
+    #gsiArea{ margin-top:16px; display:flex; justify-content:center; }
+    .note{ margin-top:10px; font-size:12px; color:#6b7280; }
   </style>
 </head>
 <body>
-  <div class="shell">
-    <main class="card" aria-labelledby="title">
-      <header class="card-header">
-        <div class="badge">京都桂病院 / 人事課</div>
-        <h1 id="title">人事課 窓口予約システム 入口</h1>
-        <p class="subtitle">
-          このページは、人事課窓口の来室予約システムへの入口です。
-          利用には <span class="domain">katsura.com</span> の Google アカウントでのログインが必要です。
-        </p>
-      </header>
+  <main class="card">
+    <h1>人事課 窓口予約システム 入口</h1>
+    <p>
+      このシステムは <span class="domain">@katsura.com</span> の Google アカウントでのみ利用できます。<br>
+      下のボタンから桂病院アカウントでログインし、予約画面へ進んでください。
+    </p>
 
-      <section class="section">
-        <div class="section-title">ご利用前にご確認ください</div>
-        <ul>
-          <li>京都桂病院の職員用 Google アカウント（<span class="domain">@katsura.com</span>）をご用意ください。</li>
-          <li>ブラウザで別の Google アカウントにログインしている場合、予約画面を開けないことがあります。</li>
-        </ul>
-      </section>
+    <div id="gsiArea">
+      <div id="gsiButton"></div>
+    </div>
 
-      <section class="section">
-        <div class="section-title">うまく開けない場合のチェック項目</div>
-        <ul>
-          <li><span class="highlight">PC の場合:</span> 右上のプロフィールアイコンから <span class="domain">@katsura.com</span> のアカウントに切り替えてください。</li>
-          <li><span class="highlight">スマートフォンの場合:</span> Chrome / Safari で <span class="domain">@katsura.com</span> のアカウントにログインしてから、下のボタンを再度押してください。</li>
-        </ul>
-      </section>
+    <p class="note">
+      ※ 個人の @gmail.com などでログインすると、次の画面で「権限がありません」と表示されます。<br>
+      その場合は、ブラウザ右上のアイコンから <span class="domain">@katsura.com</span> アカウントに切り替えてください。
+    </p>
+  </main>
 
-      <div class="alert" role="status">
-        <div class="alert-title">「権限がありません」などの画面になった場合</div>
-        <div>
-          そのブラウザで <span class="domain">@katsura.com</span> 以外のアカウントが選択されている可能性があります。
-          一度ブラウザを閉じるか、Google アカウントを切り替えてからこのページに戻り、もう一度ボタンを押してください。
-        </div>
-      </div>
+  <script>
+    // ★ 実際の値に置き換え ★
+    const GIS_CLIENT_ID = 'YOUR_GIS_CLIENT_ID.apps.googleusercontent.com';
+    const REDIRECT_URL  = 'GAS_WEBAPP_URL_HERE'; // Apps Script WebApp の URL
+    const ALLOWED_DOMAIN = 'katsura.com';
 
-      <div class="btn-row">
-        <!-- ★ ここを実際の GAS WebApp の URL に差し替える ★ -->
-        <a href="https://script.google.com/a/macros/katsura.com/s/AKfycbytgABHu-l_GiaqZJHy0G87Kpr9JEFY0rXlmylS_wEW2T5QiFX1wl2gb0a68fCqmCKV/exec" class="btn-primary">
-          <span class="btn-icon">→</span>
-          <span>桂病院アカウントで予約画面を開く</span>
-        </a>
+    // IDトークンをデコードして payload を取り出す簡易ヘルパ
+    function decodeJwt(token){
+      try{
+        const payload = token.split('.')[1]
+          .replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(atob(payload));
+      }catch(e){
+        console.error('decode error', e);
+        return {};
+      }
+    }
 
-        <a href="https://accounts.google.com/" class="btn-secondary" target="_blank" rel="noopener">
-          <span class="btn-icon">🔑</span>
-          <span>Google アカウント管理を開く</span>
-        </a>
-      </div>
+    function handleCredentialResponse(res){
+      const token = res.credential;
+      const payload = decodeJwt(token);
+      const email = payload.email || '';
+      const hd    = (payload.hd || '').toLowerCase();
 
-      <p class="footnote">
-        ※ 予約システム本体は京都桂病院の Google Workspace 内で運用されており、
-        <span class="domain">@katsura.com</span> 以外のアカウントでは利用できません。
-      </p>
-    </main>
-  </div>
+      console.log('GIS payload:', payload);
+
+      // hd でドメインをざっくりチェック（本当の制限は WebApp 側で実施）
+      if (hd !== ALLOWED_DOMAIN) {
+        alert('katsura.com の職員アカウントでログインしてください。\n現在のアカウント: ' + (email || '不明'));
+        return;
+      }
+
+      // OKなら予約WebAppへ遷移
+      window.location.href = REDIRECT_URL;
+    }
+
+    window.onload = function(){
+      if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+        console.error('Google Identity Services が読み込まれていません');
+        return;
+      }
+
+      google.accounts.id.initialize({
+        client_id: GIS_CLIENT_ID,
+        callback: handleCredentialResponse,
+        hd: ALLOWED_DOMAIN,      // UI上は katsura.com を優先表示させるヒント
+        auto_select: false,
+        itp_support: true
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById('gsiButton'),
+        {
+          type: 'standard',
+          theme: 'outline',
+          text: 'continue_with',
+          size: 'large',
+          logo_alignment: 'left'
+        }
+      );
+
+      // One Tap は今回はオフにしておく
+      // google.accounts.id.prompt();
+    };
+  </script>
 </body>
 </html>
