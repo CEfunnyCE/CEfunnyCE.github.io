@@ -1,0 +1,68 @@
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Hiragino Sans","Noto Sans JP","Meiryo",sans-serif;
+  background:#f5f5f5; padding:20px; color:#333;
+}
+.container{ max-width:1000px; margin:0 auto; background:#fff; padding:30px;
+  border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.1); }
+
+/* ========= ログインゲート ========= */
+#gate{ display:grid; place-items:center; gap:16px; padding:40px 0 }
+.muted{ color:#666 }
+
+/* ========= 上部コントロール ========= */
+.controls{
+  display:flex; align-items:center; justify-content:center; gap:12px; margin-bottom:30px;
+}
+.date-input{
+  flex:1; max-width:320px; min-width:200px; padding:12px 20px; font-size:1.2rem;
+  border:2px solid #ccc; border-radius:8px; text-align:center; font-family:inherit;
+}
+input[type="date"]::-webkit-calendar-picker-indicator{ padding:0 }
+.next-btn{
+  padding:12px 22px; font-size:1rem; background:#fff; color:#4a90e2;
+  border:2px solid #4a90e2; border-radius:8px; cursor:pointer; font-weight:600; transition:.2s;
+  white-space:nowrap;
+}
+.next-btn:hover{ background:#4a90e2; color:#fff }
+
+/* ========= テーブル ========= */
+.calendar-table{ width:100%; border-collapse:collapse; margin-top:20px }
+.calendar-table th,.calendar-table td{ border:1px solid #ccc; padding:12px 8px; text-align:center }
+.calendar-table th{ background:#f9f9f9; font-weight:600; font-size:.95rem }
+.calendar-table th.time-col{ background:#f9f9f9; width:140px }
+.calendar-table .date-header{ font-size:1.1rem }
+.calendar-table .weekday{ display:block; font-size:.85rem; margin-top:2px }
+.saturday{ color:#4a90e2 } .sunday{ color:#ff6b6b } .sunday-cell{ background:#ffe5e5 }
+
+.slot-symbol{ font-size:1.4rem; display:inline-block; width:30px; height:30px; line-height:30px; border-radius:50%; transition:.2s; cursor:pointer }
+.slot-available{ color:#4a90e2 } .slot-available:hover{ background:#e8f4ff; transform:scale(1.1) }
+.slot-busy{ color:#999 } .slot-none{ color:#ccc }
+
+/* ========= ダイアログ（中央固定・iOS/Safari安定化） ========= */
+dialog{
+  border:none; padding:0; background:#fff; color:inherit; border-radius:12px;
+  width:min(90vw,500px); max-height:90dvh; overflow:hidden; margin:0; box-shadow:0 10px 30px rgba(0,0,0,.30);
+}
+dialog[open]{ position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); -webkit-transform:translate(-50%,-50%) }
+dialog::backdrop{ background:rgba(0,0,0,.5) }
+.dialog-body{ padding:24px }
+.dialog-title{ margin:0 0 16px; font-size:1.25rem; font-weight:700 }
+.dialog-info{ color:#666; margin-bottom:16px; line-height:1.6 }
+.dialog-input{ width:100%; padding:12px; border:1px solid #ccc; border-radius:6px; font-size:1rem; font-family:inherit; margin-top:8px }
+.dialog-footer{ padding:16px 24px; display:flex; gap:12px; justify-content:flex-end; border-top:1px solid #eee }
+.btn{ padding:12px 24px; border-radius:8px; font-weight:600; cursor:pointer; font-size:1rem; transition:.2s; border:none }
+.btn-primary{ background:#4a90e2; color:#fff } .btn-primary:hover{ background:#357abd }
+.btn-outline{ background:transparent; border:1px solid #ccc; color:#333 } .btn-outline:hover{ background:#f5f5f5 }
+
+/* ========= スマホ最適化 ========= */
+@media (max-width: 420px){
+  .date-input{ width:100%; max-width:none; font-size:1rem; padding:10px 14px }
+  .next-btn{ padding:10px 12px; font-size:.95rem }
+  .calendar-table{ font-size:.85rem }
+  .calendar-table th,.calendar-table td{ padding:8px 4px }
+  .calendar-table th.time-col{ width:100px; font-size:.8rem }
+  .slot-symbol{ font-size:1.2rem; width:24px; height:24px; line-height:24px }
+  .dialog-footer{ flex-direction:column-reverse } .dialog-footer .btn{ width:100% }
+}
+
